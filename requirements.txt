@@ -1,2 +1,5 @@
-shiv==0.5.1
+psutil==5.8.0
+schedule==1.1.0
+shiv==0.5.2
+
 
