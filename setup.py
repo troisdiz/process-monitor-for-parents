@@ -15,6 +15,6 @@ setuptools.setup(
         "Operating System :: Microsoft :: Windows :: Windows 10",
         "Topic :: System :: Monitoring",
         ],
-    python_requires='>=3.9',
+    python_requires='>=3.7',
 )
 

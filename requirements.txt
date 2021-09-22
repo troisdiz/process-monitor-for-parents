@@ -2,3 +2,4 @@ psutil==5.8.0
 schedule==1.1.0
 shiv==0.5.2
 pytest==6.2.5
+wheel

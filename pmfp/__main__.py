@@ -16,8 +16,7 @@ def run_threaded(job_func):
     job_thread.start()
 
 
-if __name__ == '__main__':
-
+def main():
     schedule.every().minute.at(":35").do(run_threaded, job)
     while True:
         schedule.run_pending()
