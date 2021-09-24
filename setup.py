@@ -1,8 +1,11 @@
+import os
 import setuptools
+
+version_file = open(os.path.join(".", 'VERSION'))
 
 setuptools.setup(
     name="pmfp",
-    version="0.0.1",
+    version=version_file.read().strip(),
     author="Denis Rampnoux",
     description="A small agent to monitor process running for parental usage",
     packages=setuptools.find_packages(),

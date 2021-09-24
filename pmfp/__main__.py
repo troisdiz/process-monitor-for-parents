@@ -3,6 +3,7 @@ import threading
 import sys
 import time
 from datetime import datetime
+from pmfp import __version__
 
 import schedule
 
@@ -43,7 +44,7 @@ def _parse_args():
 def main():
     cli_options = _parse_args()
     if cli_options.ask_version:
-        print('pmfp version 0.0.1')
+        print(f"pmfp version {__version__}")
         sys.exit(0)
 
     schedule.every().minute.at(":35").do(run_threaded, job)
