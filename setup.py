@@ -9,7 +9,7 @@ setuptools.setup(
     author="Denis Rampnoux",
     description="A small agent to monitor process running for parental usage",
     packages=setuptools.find_packages(),
-    install_requires=['psutil==5.8.0', 'schedule==1.1.0'],
+    install_requires=['JSON-log-formatter', 'psutil', 'schedule'],
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
         "Environment :: Console",
