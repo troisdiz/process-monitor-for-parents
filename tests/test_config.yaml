@@ -1,0 +1,13 @@
+---
+configs:
+  user1:
+    name: 'User1'
+    processes:
+      - name: 'my_process'
+        actions:
+          warn_notif:
+            time: 1
+            unit: minute
+          kill:
+            time: 5
+            unit: minute

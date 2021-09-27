@@ -1,15 +1,15 @@
 import argparse
+from getpass import getuser
 import logging
 import threading
 import sys
 import time
 from datetime import datetime
-
 import json_log_formatter
-
-from pmfp import __version__
-
 import schedule
+
+from pmfpconfig import PmfpConfig
+from pmfp import __version__
 
 
 def job():
@@ -25,10 +25,11 @@ def run_threaded(job_func):
 
 
 class CliOptions:
-    def __init__(self, ask_version: bool, ask_help: bool, json_logging_path: str):
+    def __init__(self, ask_version: bool, ask_help: bool, json_logging_path: str, config_path: str = 'pmfp.conf'):
         self.ask_version: bool = ask_version
         self.ask_help: bool = ask_help
         self.json_logging_path = json_logging_path
+        self.config_path = config_path
 
     def is_logging_activated(self):
         return self.json_logging_path is not None
@@ -52,6 +53,13 @@ def _parse_args():
         type=str,
     )
     # TODO: config file path
+    parser.add_argument(
+        "-c",
+        "--config",
+        dest="config_path",
+        help="Path of the configuration file",
+        type=str,
+    )
     args = parser.parse_args()
     return CliOptions(ask_version=args.ask_version,
                       ask_help=True,
@@ -87,7 +95,6 @@ def set_stdout_logging():
 
 
 def main():
-
     cli_options = _parse_args()
     if cli_options.ask_version:
         print(f"pmfp version {__version__}")
@@ -97,6 +104,15 @@ def main():
         set_json_logging(cli_options.json_logging_path)
     else:
         set_stdout_logging()
+
+    config_path = cli_options.config_path
+    config: PmfpConfig = PmfpConfig.read_config(config_path)
+
+    current_user_name = getuser()
+    user_config = config.get_user_config(current_user_name)
+
+
+
 
     schedule.every().minute.at(":35").do(run_threaded, job)
     while True:
