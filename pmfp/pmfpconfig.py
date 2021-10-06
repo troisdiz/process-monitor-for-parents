@@ -33,7 +33,7 @@ def _read_user_config(user_config: dict) -> PmfpUserConfig:
 
 def _read_process_monitor(processmonitor_config: dict) -> PmfpProcessMonitor:
     action_list: list[PmfpAction] = [_read_monitor_action(action_key, processmonitor_config['actions'][action_key]) for action_key in processmonitor_config['actions']]
-    return PmfpProcessMonitor(prog_name=processmonitor_config['name'], actions=action_list)
+    return PmfpProcessMonitor(processmonitor_config['name'], prog_name=processmonitor_config['glob'], actions=action_list)
 
 
 def _read_monitor_action(action_type_str: str, action_config: dict) -> PmfpAction:
@@ -68,6 +68,7 @@ class PmfpAction:
 
 
 class PmfpProcessMonitor:
-    def __init__(self, prog_name: str, actions: list[PmfpAction]):
+    def __init__(self, processm_id: str, prog_name: str, actions: list[PmfpAction]):
+        self.processm_id: str = processm_id
         self.prog_name: str = prog_name
         self.actions: list[PmfpAction] = actions

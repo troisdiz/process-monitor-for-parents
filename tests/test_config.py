@@ -1,4 +1,3 @@
-from yaml import load, dump
 from os.path import dirname, join
 
 from pmfp.pmfpconfig import PmfpConfig, PmfpUserConfig, PmfpActionType

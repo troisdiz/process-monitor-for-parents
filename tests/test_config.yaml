@@ -4,6 +4,7 @@ configs:
     name: 'User1'
     processes:
       - name: 'my_process'
+        glob: 'truc.*'
         actions:
           warn_notif:
             time: 1

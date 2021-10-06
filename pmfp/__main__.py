@@ -7,7 +7,7 @@ import time
 from datetime import datetime
 import json_log_formatter
 import schedule
-
+from pmfpprocess import ProcessBookKeeper, ProcessMonitor, ReactionsManager
 from pmfpconfig import PmfpConfig
 from pmfp import __version__
 
@@ -63,7 +63,8 @@ def _parse_args():
     args = parser.parse_args()
     return CliOptions(ask_version=args.ask_version,
                       ask_help=True,
-                      json_logging_path=args.json_logging_path)
+                      json_logging_path=args.json_logging_path,
+                      config_path=args.config_path)
 
 
 def set_json_logging(file_path: str):
@@ -88,7 +89,7 @@ def set_stdout_logging():
     stdout_handler = logging.StreamHandler(stream=sys.stdout)
     stdout_handler.setFormatter(formatter)
 
-    logger = logging.getLogger(__name__)
+    logger = logging.getLogger("pmfp")
     logger.addHandler(stdout_handler)
     logger.setLevel(logging.DEBUG)
     logger.debug("Logging in DEBUG level")
@@ -111,10 +112,11 @@ def main():
     current_user_name = getuser()
     user_config = config.get_user_config(current_user_name)
 
+    process_book_keeper: ProcessBookKeeper = ProcessBookKeeper()
+    reaction_manager: ReactionsManager = ReactionsManager()
+    process_monitor: ProcessMonitor = ProcessMonitor(book_keeper=process_book_keeper, reactions_manager=reaction_manager)
 
-
-
-    schedule.every().minute.at(":35").do(run_threaded, job)
+    schedule.every().minute.at(":00").do(run_threaded, process_monitor.do_check)
     while True:
         schedule.run_pending()
         time.sleep(1)
