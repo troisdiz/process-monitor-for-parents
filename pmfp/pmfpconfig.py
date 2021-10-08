@@ -26,7 +26,10 @@ class PmfpConfig:
 
 
 def _read_user_config(user_config: dict) -> PmfpUserConfig:
-    processes_yaml = user_config['processes']
+    if 'processes' in user_config:
+        processes_yaml = user_config['processes']
+    else:
+        processes_yaml = []
     process_configs: list[PmfpProcessMonitor] = [_read_process_monitor(pm_config) for pm_config in processes_yaml]
     return PmfpUserConfig(user_name=user_config['name'], processmonitors=process_configs)
 
