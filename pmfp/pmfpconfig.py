@@ -32,7 +32,7 @@ def _read_user_config(user_config: dict) -> PmfpUserConfig:
     else:
         processes_yaml = []
     process_configs: list[PmfpProcessMonitor] = [_read_process_monitor(pm_config) for pm_config in processes_yaml]
-    return PmfpUserConfig(user_name=user_config['name'], processmonitors=process_configs)
+    return PmfpUserConfig(user_name=user_config['name'], process_monitors=process_configs)
 
 
 def _read_process_monitor(processmonitor_config: dict) -> PmfpProcessMonitor:
