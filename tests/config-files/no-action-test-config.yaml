@@ -1,0 +1,7 @@
+---
+configs:
+  user1:
+    name: 'User1'
+    processes:
+      - name: 'my_process'
+        glob: 'truc.*'
