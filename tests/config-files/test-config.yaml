@@ -12,3 +12,9 @@ configs:
           kill:
             time: 5
             unit: minute
+    common_actions:
+      - id: "truc-pool-action"
+        name: "Too much run for truc"
+        warn_notif:
+          time: 2
+          unit: minute

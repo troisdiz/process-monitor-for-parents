@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from enum import Enum
 
 import yaml
@@ -35,7 +36,9 @@ def _read_user_config(user_config: dict) -> PmfpUserConfig:
 
 
 def _read_process_monitor(processmonitor_config: dict) -> PmfpProcessMonitor:
-    action_list: list[PmfpAction] = [_read_monitor_action(action_key, processmonitor_config['actions'][action_key]) for action_key in processmonitor_config['actions']]
+    action_list: list[PmfpAction] = []
+    if 'actions' in processmonitor_config:
+        action_list: list[PmfpAction] = [_read_monitor_action(action_key, processmonitor_config['actions'][action_key]) for action_key in processmonitor_config['actions']]
     return PmfpProcessMonitor(processmonitor_config['name'], prog_name=processmonitor_config['glob'], actions=action_list)
 
 
@@ -43,13 +46,13 @@ def _read_monitor_action(action_type_str: str, action_config: dict) -> PmfpActio
     action_type: PmfpActionType = PmfpActionType[action_type_str.upper()]
     max_time: int = int(action_config['time'])
     max_time_per_unit: PmfpTimeUnit = PmfpTimeUnit[action_config['unit'].upper()]
-    return PmfpAction(action_type=action_type, max_time=max_time, max_time_per_unit=max_time_per_unit)
+    return PmfpAction(type=action_type, max_time=max_time, max_time_per_unit=max_time_per_unit)
 
 
+@dataclass
 class PmfpUserConfig:
-    def __init__(self, user_name: str, processmonitors: list[PmfpProcessMonitor]):
-        self.user_name: str = user_name
-        self.process_monitors: list[PmfpProcessMonitor] = processmonitors
+    user_name: str
+    process_monitors: list[PmfpProcessMonitor]
 
 
 class PmfpTimeUnit(Enum):
@@ -64,14 +67,15 @@ class PmfpActionType(Enum):
     KILL = 1 << 3
 
 
+@dataclass
 class PmfpAction:
-    def __init__(self, action_type: PmfpActionType, max_time: int, max_time_per_unit: PmfpTimeUnit):
-        self.type: PmfpActionType = action_type
-        self.max_time: int = max_time
+    type: PmfpActionType
+    max_time: int
+    max_time_per_unit: PmfpTimeUnit
 
 
+@dataclass
 class PmfpProcessMonitor:
-    def __init__(self, processm_id: str, prog_name: str, actions: list[PmfpAction]):
-        self.processm_id: str = processm_id
-        self.prog_name: str = prog_name
-        self.actions: list[PmfpAction] = actions
+    processm_id: str
+    prog_name: str
+    actions: list[PmfpAction]

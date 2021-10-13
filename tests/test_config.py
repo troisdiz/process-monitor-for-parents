@@ -6,13 +6,14 @@ import pytest
 
 
 class TestConfigFiles(Enum):
-    STANDARD = "config-files/test_config.yaml"
+    STANDARD = "config-files/test-config.yaml"
     NO_PROCESS = "config-files/no-process-config.yaml"
+    NO_ACTION = "config-files/no-action-test-config.yaml"
 
 
 def test_parse_config():
 
-    configs: PmfpConfig = PmfpConfig.read_config(join(dirname(__file__), 'config-files/test_config.yaml'))
+    configs: PmfpConfig = PmfpConfig.read_config(join(dirname(__file__), 'config-files/test-config.yaml'))
     assert configs.get_user_config('User1') is not None
 
     user1_config = configs.get_user_config('User1')
@@ -24,5 +25,5 @@ def test_parse_config():
 
 
 @pytest.mark.parametrize("test_file_enum", [member for name, member in TestConfigFiles.__members__.items()])
-def test_eval(test_file_enum):
+def test_parsing_on_sample_files(test_file_enum):
     configs: PmfpConfig = PmfpConfig.read_config(join(dirname(__file__), test_file_enum.value))

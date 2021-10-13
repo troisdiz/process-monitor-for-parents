@@ -109,8 +109,8 @@ class ProcessBookKeeper:
 
 
 class ReactionsManager:
-    def __init__(self):
-        pass
+    def __init__(self, process_queries: list[ProcessQuery]):
+        self.process_queries: list[ProcessQuery] = process_queries
 
     def notify_process_event(self, process, state, total_time: int):
         pass

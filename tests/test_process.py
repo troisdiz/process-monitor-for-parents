@@ -5,7 +5,7 @@ from pmfp.pmfpprocess import ProcessMonitor, ProcessDescriptor
 
 
 def test_process_by_query_id():
-    config = PmfpConfig.read_config(join(dirname(__file__), 'config-files/test_config.yaml')).get_user_config('User1')
+    config = PmfpConfig.read_config(join(dirname(__file__), 'config-files/test-config.yaml')).get_user_config('User1')
     pm: ProcessMonitor = ProcessMonitor(config=config,
                                         process_lister=None,
                                         user_name="User1",
